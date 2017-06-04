@@ -1,2 +1,8 @@
-# otus-java-2017-06-salnikov
-Homework for "Java developer" course on otus.ru
+# Домашние задания для курса "Разработчик Java" в Otus.ru.
+
+Группа 2017-06
+
+### Автор:
+Andrey Salnikov (Андрей Сальников)
+
+daren.ace@gmail.com
