@@ -1,8 +1,13 @@
 package ru.otus.homework_03;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import java.util.Collection;
+import java.util.List;
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.Arrays;
+import java.util.NoSuchElementException;
 
-import java.util.*;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class MyArrayList<T> implements List<T> {
     private static final int DEFAULT_CAPACITY = 10;
@@ -63,7 +68,13 @@ public class MyArrayList<T> implements List<T> {
 
         @Override
         public void remove() {
-            throw new NotImplementedException();
+            if (lastUsedIndex != -1) {
+                MyArrayList.this.remove(lastUsedIndex);
+                index = lastUsedIndex;
+                lastUsedIndex = -1;
+            } else {
+                throw new IllegalStateException();
+            }
         }
     }
 
@@ -79,8 +90,11 @@ public class MyArrayList<T> implements List<T> {
 
         @Override
         public T previous() {
-            throw new NotImplementedException();
-//            return null;
+            if (index < 0) {
+                throw new NoSuchElementException();
+            }
+            lastUsedIndex = index--;
+            return (T) items[lastUsedIndex];
         }
 
         @Override
@@ -140,8 +154,7 @@ public class MyArrayList<T> implements List<T> {
     }
 
     public boolean contains(Object o) {
-        throw new NotImplementedException();
-//        return false;
+        return indexOf(o) != -1;
     }
 
     public boolean containsAll(Collection<?> c) {
@@ -199,7 +212,10 @@ public class MyArrayList<T> implements List<T> {
     }
 
     public void clear() {
-        throw new NotImplementedException();
+        for (int i = 0; i < size; i++) {
+            items[i] = null;
+        }
+        size = 0;
     }
 
     public T get(int index) {
@@ -215,13 +231,22 @@ public class MyArrayList<T> implements List<T> {
     }
 
     public T remove(int index) {
-        throw new NotImplementedException();
-//        return null;
+        checkArrayIndex(index);
+        T result = (T) items[index];
+        if (index < size - 1) {
+            System.arraycopy(items, index + 1, items, index, size - (index + 1));
+        }
+        items[--size] = null;
+        return result;
     }
 
     public boolean remove(Object o) {
-        throw new NotImplementedException();
-//        return false;
+        int index = indexOf(o);
+        if (index != -1) {
+            remove(index);
+            return true;
+        }
+        return false;
     }
 
     public boolean removeAll(Collection<?> c) {
@@ -230,13 +255,35 @@ public class MyArrayList<T> implements List<T> {
     }
 
     public int indexOf(Object o) {
-        throw new NotImplementedException();
-//        return 0;
+        if (o != null) {
+            for (int i = 0; i < size; i++) {
+                if (o.equals(items[i])) {
+                    return i;
+                }
+            }
+        }
+        for (int i = 0; i < size; i++) {
+            if (items[i] == null) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public int lastIndexOf(Object o) {
-        throw new NotImplementedException();
-//        return 0;
+        if (o != null) {
+            for (int i = size - 1; i >= 0; i--) {
+                if (o.equals(items[i])) {
+                    return i;
+                }
+            }
+        }
+        for (int i = size - 1; i >= 0; i--) {
+            if (items[i] == null) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public List<T> subList(int fromIndex, int toIndex) {
