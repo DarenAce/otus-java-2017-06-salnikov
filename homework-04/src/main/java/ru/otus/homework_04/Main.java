@@ -3,9 +3,14 @@ package ru.otus.homework_04;
 import java.io.IOException;
 
 /*
- * JVM options:
+ * JVM options for Copy + MarkSweepCompact GCs:
  * -Xms512m -Xmx512m -XX:UseSerialGC
- * -Xms512m -Xmx512m -XX:UseSerialGC
+ * JVM options for PS Scavenge + PS MarkSweep GCs:
+ * -Xms512m -Xmx512m -XX:+UseParallelGC -XX:+UseParallelOldGC
+ * JVM options for ParNew + ConcurrentMarkSweep GCs:
+ * -Xms512m -Xmx512m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC
+ * JVM options for G1 GC:
+ * -Xms512m -Xmx512m -XX:+UseG1GC
  */
 
 public class Main {
