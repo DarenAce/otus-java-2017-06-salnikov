@@ -24,7 +24,7 @@ public class ATM {
     }
 
     public ATM(ArrayList<Cassette> cassettes, WithdrawStrategy strategy) {
-        this.cassettes = cassettes;
+        this.cassettes = new ArrayList<>(cassettes);
         this.strategy = strategy;
     }
 

@@ -9,7 +9,7 @@ public class ATMDepartment {
     private HashMap<ATM, ATM.ATMMemento> atmToATMStates;
 
     public ATMDepartment(ArrayList<ATM> atms) {
-        this.atms = atms;
+        this.atms = new ArrayList<>(atms);
         atmToATMStates = new HashMap<>();
         for (ATM atm : atms) {
             atmToATMStates.put(atm, atm.save());
@@ -25,8 +25,8 @@ public class ATMDepartment {
     }
 
     public void restoreATMStates() {
-        for (Map.Entry<ATM, ATM.ATMMemento> atmState : atmToATMStates.entrySet()) {
-            atmState.getKey().restore(atmState.getValue());
+        for (ATM atm : atms) {
+            atm.restore(atmToATMStates.get(atm));
         }
     }
 }
