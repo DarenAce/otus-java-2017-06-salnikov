@@ -3,13 +3,9 @@ package ru.otus.homework_08;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Created by tully.
- */
 @SuppressWarnings("SameParameterValue")
 class ReflectionHelper {
     private ReflectionHelper() {
@@ -28,11 +24,24 @@ class ReflectionHelper {
         return null;
     }
 
+    static Field[] getAllClassFields(Class<?> clazz) {
+        List<Field> fields = new ArrayList<>();
+        getAllClassFields(clazz, fields);
+        return fields.toArray(new Field[0]);
+    }
+
+    static void getAllClassFields(Class<?> clazz, List<Field> fields) {
+        if (clazz.getSuperclass() != null) {
+            getAllClassFields(clazz.getSuperclass(), fields);
+        }
+        fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
+    }
+
     static Object getFieldValue(Object object, String name) {
         Field field = null;
         boolean isAccessible = true;
         try {
-            field = object.getClass().getDeclaredField(name); //getField() for public fields
+            field = object.getClass().getDeclaredField(name);
             isAccessible = field.isAccessible();
             field.setAccessible(true);
             return field.get(object);
@@ -42,6 +51,22 @@ class ReflectionHelper {
             if (field != null && !isAccessible) {
                 field.setAccessible(false);
             }
+        }
+        return null;
+    }
+
+    static Object getFIeldValue(Object object, Field field) {
+        if (object == null || field == null) {
+            return null;
+        }
+        boolean isAccessible = field.isAccessible();
+        field.setAccessible(true);
+        try {
+            return field.get(object);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } finally {
+            field.setAccessible(isAccessible);
         }
         return null;
     }
@@ -60,6 +85,21 @@ class ReflectionHelper {
             if (field != null && !isAccessible) {
                 field.setAccessible(false);
             }
+        }
+    }
+
+    static void setFieldValue(Object object, Field field, Object value) {
+        if (object == null || field == null) {
+            return;
+        }
+        boolean isAccessible = field.isAccessible();
+        field.setAccessible(true);
+        try {
+            field.set(object, value);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } finally {
+            field.setAccessible(isAccessible);
         }
     }
 
