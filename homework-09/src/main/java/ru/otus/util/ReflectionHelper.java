@@ -29,6 +29,19 @@ public class ReflectionHelper {
         return null;
     }
 
+    public static Field[] getAllClassFields(Class<?> clazz) {
+        List<Field> fields = new ArrayList<>();
+        getAllClassFields(clazz, fields);
+        return fields.toArray(new Field[0]);
+    }
+
+    public static void getAllClassFields(Class<?> clazz, List<Field> fields) {
+        fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
+        if (clazz != Object.class && clazz.getSuperclass() != Object.class) {
+            getAllClassFields(clazz.getSuperclass(), fields);
+        }
+    }
+
     public static Object getFieldValue(Object object, String name) {
         Field field = null;
         try {

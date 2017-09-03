@@ -2,14 +2,15 @@ package ru.otus.db.service;
 
 import ru.otus.db.dao.*;
 import ru.otus.db.dataset.UserDataSet;
+import ru.otus.util.ConnectionHelper;
 
 import java.sql.Connection;
 
 public class DBServiceImpl implements DBService{
     private final Connection connection;
 
-    public DBServiceImpl(Connection connection) {
-        this.connection = connection;
+    public DBServiceImpl() {
+        this.connection = ConnectionHelper.getConnection();
     }
 
     @Override
