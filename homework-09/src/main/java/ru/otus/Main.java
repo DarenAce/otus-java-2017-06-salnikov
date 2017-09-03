@@ -12,7 +12,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         Connection connection = ConnectionHelper.getConnection();
-        DBService dbService = new DBServiceImpl(connection);
+        DBService dbService = new DBServiceImpl();
         Executor executor = new Executor(connection);
         try {
             System.out.println("Connected to: " + connection.getMetaData().getURL());
