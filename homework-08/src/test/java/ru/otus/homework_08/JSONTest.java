@@ -10,34 +10,33 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
 public class JSONTest {
     Gson gson = new Gson();
 
     @Test
     public void primitiveTypesToJSON() {
-        Assert.assertEquals(JSON.toJSON(15), gson.toJson(15));
-        Assert.assertEquals(JSON.toJSON('c'), gson.toJson('c'));
-        Assert.assertEquals(JSON.toJSON(true), gson.toJson(true));
+        Assert.assertEquals(gson.toJson(15), JSON.toJSON(15));
+        Assert.assertEquals(gson.toJson('c'), JSON.toJSON('c'));
+        Assert.assertEquals(gson.toJson(true), JSON.toJSON(true));
     }
 
     @Test
     public void stringToJSON() {
-        Assert.assertEquals(JSON.toJSON("abc"), gson.toJson("abc"));
+        Assert.assertEquals(gson.toJson("abc"), JSON.toJSON("abc"));
     }
 
     @Test
     public void arrayToJSON() {
         int[] ints = {7, 8, 45, -1};
-        Assert.assertEquals(JSON.toJSON(ints), gson.toJson(ints));
+        Assert.assertEquals(gson.toJson(ints), JSON.toJSON(ints));
         char[] chars = {'a', 'b', 'b', 'a'};
-        Assert.assertEquals(JSON.toJSON(chars), gson.toJson(chars));
+        Assert.assertEquals(gson.toJson(chars), JSON.toJSON(chars));
         int[][] doubleInts = {{1, 11}, {2, 22}};
-        Assert.assertEquals(JSON.toJSON(doubleInts), gson.toJson(doubleInts));
+        Assert.assertEquals(gson.toJson(doubleInts), JSON.toJSON(doubleInts));
         Person[] persons = {new Person("John", "Doe", 42),
                 new Person("Jane", "Doe", 39)};
-        Assert.assertEquals(JSON.toJSON(persons), gson.toJson(persons));
+        Assert.assertEquals(gson.toJson(persons), JSON.toJSON(persons));
     }
 
     @Test
@@ -46,11 +45,11 @@ public class JSONTest {
         integers.add(3);
         integers.add(17);
         integers.add(42);
-        Assert.assertEquals(JSON.toJSON(integers), gson.toJson(integers));
+        Assert.assertEquals(gson.toJson(integers), JSON.toJSON(integers));
         List<Person> persons = new ArrayList<>();
         persons.add(new Person("John", "Doe", 42));
         persons.add(new Person("Jane", "Doe", 39));
-        Assert.assertEquals(JSON.toJSON(persons), gson.toJson(persons));
+        Assert.assertEquals(gson.toJson(persons), JSON.toJSON(persons));
     }
 
     @Test
@@ -59,14 +58,14 @@ public class JSONTest {
         intToString.put(2, "two");
         intToString.put(11, "eleven");
         intToString.put(42, "forty two");
-        Assert.assertEquals(JSON.toJSON(intToString), gson.toJson(intToString));
+        Assert.assertEquals(gson.toJson(intToString), JSON.toJSON(intToString));
         Map<Employee, Person> employeeToPerson = new LinkedHashMap<>();
         Person person1 = new Person("John", "Doe", 42);
         Person person2 = new Person("Jane", "Doe", 39);
         employeeToPerson.put(new Employee('A', person1, 17000),
                 person1);
         employeeToPerson.put(new Employee('C', person2, 42000), person2);
-        Assert.assertEquals(JSON.toJSON(employeeToPerson), gson.toJson(employeeToPerson));
+        Assert.assertEquals(gson.toJson(employeeToPerson), JSON.toJSON(employeeToPerson));
     }
 
     @Test

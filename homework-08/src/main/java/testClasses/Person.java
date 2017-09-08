@@ -15,6 +15,15 @@ public class Person {
         count++;
     }
 
+    public Person(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public Person(String firstName) {
+        this.firstName = firstName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -8,7 +8,7 @@ public class Employee {
     int salary;
 
     public Employee(char grade, Person person, int salary) {
-        this.id  = ++count;
+        this.id = ++count;
         this.grade = grade;
         this.person = person;
         this.salary = salary;
