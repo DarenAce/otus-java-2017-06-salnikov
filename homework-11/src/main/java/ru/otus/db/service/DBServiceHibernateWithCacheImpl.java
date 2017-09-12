@@ -11,7 +11,7 @@ import ru.otus.db.dataset.*;
 import java.util.List;
 import java.util.function.Function;
 
-public class DBServiceHibernateWithCacheImpl implements DBService {
+public class DBServiceHibernateWithCacheImpl implements DBService, CacheInfo {
     private final SessionFactory sessionFactory;
     private final CacheEngine<Long, UserDataSet> userCache;
 
@@ -40,9 +40,7 @@ public class DBServiceHibernateWithCacheImpl implements DBService {
 
     @Override
     public String getLocalStatus() {
-        return runInSession(session -> {
-            return session.getTransaction().getStatus().name();
-        });
+        return runInSession(session -> session.getTransaction().getStatus().name());
     }
 
     @Override
@@ -102,6 +100,16 @@ public class DBServiceHibernateWithCacheImpl implements DBService {
         userCache.dispose();
     }
 
+    @Override
+    public long getCacheHitCount() {
+        return userCache.getHitCount();
+    }
+
+    @Override
+    public long getCacheMissCount() {
+        return userCache.getMissCount();
+    }
+
     private <R> R runInSession(Function<Session, R> function) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
@@ -109,13 +117,5 @@ public class DBServiceHibernateWithCacheImpl implements DBService {
             transaction.commit();
             return result;
         }
-    }
-
-    public long getCacheHitCount() {
-        return userCache.getHitCount();
-    }
-
-    public long getCacheMissCount() {
-        return userCache.getMissCount();
     }
 }
