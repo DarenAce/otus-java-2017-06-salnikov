@@ -1,0 +1,12 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Cache monitor</title>
+        <script src="js/cache.js"></script>
+    </head>
+    <body onload='setInterval(function(){refresh()}, 1000 ); refresh();'>
+        <h1>Cache parameters</h1>
+        <p>Hit count: <span id='hitCount'></span></p>
+        <p>Miss count: <span id='missCount'></span></p>
+        <p>Hit ratio: <span id='hitRatio'></span>%</p>
+    </body>
+</html>
