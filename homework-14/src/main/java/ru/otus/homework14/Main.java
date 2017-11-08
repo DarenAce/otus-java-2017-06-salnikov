@@ -5,7 +5,6 @@ import java.util.*;
 public class Main {
     private static final int ARRAY_SIZE = 10_000_000;
     private static final int ARRAY_BOUND = 10_000_000;
-    public static volatile int completeThreadCount;
 
     public static void main(String[] args) {
         int threadCount = 1;
@@ -35,19 +34,22 @@ public class Main {
 
     private static int[] multiThreadSorting(int[] array, int threadCount) {
         int[][] subArrays = splitArray(array, threadCount);
-        completeThreadCount = 0;
 
         Thread[] sortThreads = new Thread[threadCount];
         for (int i = 0; i < sortThreads.length; i++) {
             int[] subArray = subArrays[i];
-            sortThreads[i] = new Thread(() -> {
-                Arrays.sort(subArray);
-                completeThreadCount++;
-            });
+            sortThreads[i] = new Thread(() -> Arrays.sort(subArray));
             sortThreads[i].start();
         }
 
-        while (completeThreadCount != threadCount) {
+        for (Thread thread : sortThreads) {
+            try {
+                if (thread.isAlive()) {
+                    thread.join();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         return mergeArrays(subArrays);
